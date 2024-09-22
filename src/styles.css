@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+.custom-navbar {
+    height: 60px;
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+    line-height: 60px;
+}
+
+body {
+    padding-top: 60px;
+}

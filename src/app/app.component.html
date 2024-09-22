@@ -1,0 +1,112 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top py-0 text-success">
+
+  <!-- Navbar logo + brand -->
+  <a class="navbar-brand mb-0 h1 ms-2 ms-lg-4" role="button" [routerLink]="['/home']">
+    <img src="logos/logo.png" alt="Logo" height="44" class="d-inline-block align-text-center py-0 me-3">
+    CadFin 1.0
+  </a>
+
+  <!-- Botão de toggle -->
+  <button class="navbar-toggler me-2 me-lg-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse mx-2 mx-lg-0" id="navbarSupportedContent">
+
+    <!-- Opções do menu do Navbar -->
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/home">Início</a>
+      </li>
+      
+      <!-- Exibe apenas se o usuário estiver autenticado -->
+      <li class="nav-item dropdown" *ngIf="isAuthenticated">
+        <a class="nav-link dropdown-toggle" role="button" id="fileDropdown" data-bs-toggle="dropdown" aria-expanded="false">Arquivos</a>
+        <ul class="dropdown-menu" aria-labelledby="fileDropdown">
+          <li><a class="dropdown-item" [routerLink]="['/submissions']" routerLinkActive="active">Submissões</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" [routerLink]="['/reservation-schedules']" routerLinkActive="active">Cronogramas de Reservas</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/commitment-schedules']" routerLinkActive="active">Cronogramas de Empenhos</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/commitment-cash-flows']" routerLinkActive="active">Fluxos de Caixa de Empenhos</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/settlement-cash-flows']" routerLinkActive="active">Fluxos de Caixa de Liquidações</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" [routerLink]="['/merges']" routerLinkActive="active">Mesclagens</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" [routerLink]="['/financial-notebooks']" routerLinkActive="active">Cadernos Financeiros</a></li>
+        </ul>
+      </li>
+
+      <!-- Exibe apenas se o usuário estiver autenticado -->
+      <li class="nav-item dropdown" *ngIf="isAuthenticated">
+        <a class="nav-link dropdown-toggle" role="button" id="tableDropdown" data-bs-toggle="dropdown" aria-expanded="false">Tabelas</a>
+        <ul class="dropdown-menu" aria-labelledby="tableDropdown">
+          <li><a class="dropdown-item" [routerLink]="['/projects']" routerLinkActive="active">Projetos</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/activities']" routerLinkActive="active">Atividades</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/elements']" routerLinkActive="active">Elementos</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/items']" routerLinkActive="active">Itens</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/creditors']" routerLinkActive="active">Credores</a></li>
+          <li><a class="dropdown-item" [routerLink]="['/processes']" routerLinkActive="active">Processos</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-item" *ngIf="isAuthenticated">
+        <a class="nav-link" routerLink="/audit">Auditoria</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/help">Ajuda</a>
+      </li>
+    </ul>
+
+    <!-- Formulário de busca -->
+    <form class="d-flex me-2 me-lg-4" (ngSubmit)="onSearch(searchInput.value)">
+      <input [(ngModel)]="searchTerm" #searchInput="ngModel" name="searchTerm" class="form-control me-2" type="search" placeholder="O que busca?" aria-label="Search" maxlength="255" required />
+      <button class="btn btn-outline-success" type="submit" [disabled]="!searchTerm || searchTerm.trim() === ''">Buscar</button>
+    </form>
+
+    <!-- Ícone de usuário -->
+    <div class="dropdown me-2 me-lg-4">
+      <a class="nav-link" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-person-circle fs-1 user-icon"></i>
+        <!-- Ícone de usuário -->
+      </a>
+      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" data-bs-auto-close="outside">
+
+        <!-- Exibe o card do usuário apenas se autenticado -->
+        <ng-container *ngIf="isAuthenticated">
+          <div class="p-2 text-center" style="width: 16rem; border-bottom: 1px solid #ddd;" (click)="$event.stopPropagation()">
+            <div class="card-body">
+              <img src="avatar.jpeg" alt="Avatar do Usuário" class="rounded-circle mx-auto d-block" style="width: 150px; height: 150px;">
+              <h5 class="card-title mt-2">{{ user.name }}</h5>
+              <p class="card-text">{{ user.email }}</p>
+              <p class="card-text">Matrícula: {{ user.registration }}</p>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Itens do menu -->
+        <ul class="list-unstyled mb-0">
+          <ng-container *ngIf="isAuthenticated; else loginOption">
+            <li>
+              <a class="dropdown-item" role="button" (click)="changePassword()">Trocar senha</a>
+            </li>
+            <li>
+              <a class="dropdown-item" role="button" (click)="logout()">Sair</a>
+            </li>
+          </ng-container>
+          <ng-template #loginOption>
+            <li>
+              <a class="dropdown-item" role="button" (click)="login()">Autenticar</a>
+            </li>
+          </ng-template>
+        </ul>
+
+      </div>
+    </div>
+
+  </div>
+
+</nav>
+
+<router-outlet></router-outlet>

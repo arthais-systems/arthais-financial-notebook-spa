@@ -1,0 +1,94 @@
+/* Estilo para o ícone do usuário */
+.user-icon {
+    color: #92c594;
+    transition: color 0.3s ease, transform 0.3s ease;
+    /* Transições suaves para cor e tamanho */
+}
+
+/* Efeito de hover no ícone do usuário */
+.user-icon:hover {
+    color: #6ba86d; /* Verde mais escuro no hover */
+    transform: scale(1.1); /* Aumenta o tamanho levemente no hover */
+}
+
+/* Estilo para o item ativo na navbar */
+.navbar-nav .nav-link.active {
+    color: #4CAF50 !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
+}
+
+/* Estilo para hover e foco nos itens da navbar */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #45A049 !important;
+    background-color: transparent !important;
+    text-shadow: none;
+}
+
+/* Estilo para o item ativo no dropdown */
+.dropdown-item.active {
+    color: #4CAF50 !important;
+    font-weight: bold;
+    border-left: 4px solid #4CAF50;
+    background-color: transparent !important;
+    transition: color 0.3s ease, border-left 0.3s ease;
+}
+
+/* Hover nos itens do dropdown */
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: #45A049 !important;
+    background-color: transparent !important;
+}
+
+/* Estilo para itens de menu e dropdown ativos (redundância removida) */
+.navbar-nav .nav-link.active, 
+.dropdown-item.active {
+    font-weight: bold;
+    color: #4CAF50 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
+}
+
+/* Estilo para o item ativo na navbar */
+.navbar-nav .nav-link.active {
+    color: #4CAF50 !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
+}
+
+/* Estilo para hover e foco nos itens da navbar */
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #45A049 !important;
+    background-color: transparent !important;
+    text-shadow: none;
+}
+
+/* Estilo para o item ativo no dropdown */
+.dropdown-item.active {
+    color: #4CAF50 !important;
+    font-weight: bold;
+    border-left: 4px solid #4CAF50;
+    background-color: transparent !important;
+    transition: color 0.3s ease, border-left 0.3s ease;
+}
+
+/* Hover nos itens do dropdown */
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: #45A049 !important;
+    background-color: transparent !important;
+}
+
+/* Estilo para itens de menu e dropdown ativos (redundância removida) */
+.navbar-nav .nav-link.active, 
+.dropdown-item.active {
+    font-weight: bold;
+    color: #4CAF50 !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    transition: color 0.3s ease;
+}

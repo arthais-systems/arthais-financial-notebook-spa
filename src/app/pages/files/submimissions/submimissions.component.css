@@ -1,0 +1,65 @@
+/* Estilos para o botão de filtro quando ativo */
+.btn-info {
+    background-color: #17a2b8;
+    /* Uma cor azul mais viva */
+    color: white;
+}
+
+
+/* Estilos para cada coluna com porcentagens */
+
+/* Coluna ID - ocupa 10% da largura total */
+th.column-id {
+    width: 10%;
+    text-align: center;
+}
+
+/* Coluna Descrição - ocupa 40% da largura total */
+th.column-description {
+    width: 40%;
+    text-align: left;
+    /* Alinhamento à esquerda para descrições */
+}
+
+/* Estilo para imagem circular */
+.rounded-circle {
+    border-radius: 50%;
+    object-fit: cover;
+    /* Garante que a imagem preencha o círculo */
+}
+
+/* Define largura de coluna do usuário */
+th.column-user {
+    width: 20%;
+    text-align: center;
+}
+
+
+
+/* Coluna Data - ocupa 25% da largura total */
+th.column-date {
+    width: 20%;
+    text-align: center;
+}
+
+/* Coluna Status - ocupa 15% da largura total */
+th.column-status {
+    width: 10%;
+    text-align: center;
+}
+
+th i {
+    margin-left: 2px;
+    /* Espaço entre texto e ícone */
+}
+
+.custom-file-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .d-none {
+    display: none;
+  }
+  

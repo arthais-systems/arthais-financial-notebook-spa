@@ -1,0 +1,344 @@
+<!-- Filtro e tabela -->
+<div class="my-3" *ngIf="!showForm">
+
+    <div class="card">
+        <div
+            class="card-header d-flex justify-content-between align-items-center">
+            <h3>Submissões</h3>
+
+            <!-- Botões de Ação -->
+            <div>
+                <!-- Botão de Filtro -->
+                <button
+                    [ngClass]="{'btn-info': showFilter, 'btn-secondary': !showFilter}"
+                    class="btn me-2" (click)="toggleFilter()" title="Filtrar">
+                    <i class="bi bi-funnel-fill"></i>
+                    <i class="bi"
+                        [ngClass]="showFilter ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+                    <!-- Setinha para abrir/fechar -->
+                </button>
+
+                <!-- Botão para nova submissão -->
+                <button class="btn btn-primary" (click)="toggleForm()"
+                    title="Nova Submissão">
+                    <i class="bi bi-file-earmark-plus"></i>
+                    <i class="bi"
+                        [ngClass]="showForm ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+                    <!-- Setinha para abrir/fechar -->
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtro -->
+    <div *ngIf="!showForm && showFilter" class="filter-card-body">
+        <div class="card my-3">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <!-- Filtro por usuário -->
+                    <div class="col-lg-3 col-12">
+                        <label for="userFilter">Usuário:</label>
+                        <select id="userFilter" [(ngModel)]="userFilter"
+                            class="form-select">
+                            <option value>Todos</option>
+                            <!-- Simulando opções de usuários -->
+                            <option *ngFor="let user of users" [value]="user">{{
+                                user }}</option>
+                        </select>
+                    </div>
+
+                    <!-- Filtro por status -->
+                    <div class="col-lg-3 col-12">
+                        <label for="statusFilter">Status:</label>
+                        <select id="statusFilter" [(ngModel)]="statusFilter"
+                            class="form-select">
+                            <option value>Todos</option>
+                            <option value="Sucesso">Sucesso</option>
+                            <option value="Erros">Erros</option>
+                            <option value="Alertas">Alertas</option>
+                        </select>
+                    </div>
+
+                    <!-- Filtro por período -->
+                    <div class="col-lg-6 col-12">
+                        <label for="dateFrom">Período:</label>
+                        <div class="row">
+                            <div class="col">
+                                <input id="dateFrom" type="date"
+                                    [(ngModel)]="dateFrom" class="form-control"
+                                    placeholder="De">
+                            </div>
+                            <div class="col">
+                                <input id="dateTo" type="date"
+                                    [(ngModel)]="dateTo" class="form-control"
+                                    placeholder="Até">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabela de submissões -->
+    <div *ngIf="!showForm" class="table-responsive mt-3">
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th (click)="sortBy('submissionId')"
+                        class="column-id">ID <i
+                            [class]="getSortIcon('submissionId')"></i></th>
+                    <th (click)="sortBy('description')"
+                        class="column-description">Descrição <i
+                            [class]="getSortIcon('description')"></i></th>
+                    <th (click)="sortBy('user')" class="column-user">Usuário
+                        <i [class]="getSortIcon('user')"></i></th>
+                    <!-- Nova coluna de Usuário -->
+                    <th (click)="sortBy('timestamp')"
+                        class="column-date">Data <i
+                            [class]="getSortIcon('timestamp')"></i></th>
+                    <th (click)="sortBy('status')"
+                        class="column-status">Status <i
+                            [class]="getSortIcon('status')"></i></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let submission of filteredSubmissions()">
+                    <td class="text-end">{{ submission.submissionId }}
+                        <button class="btn btn-link text-danger p-0"
+                            (click)="deleteSubmission(submission.submissionId)"
+                            title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                    <td>{{ submission.description }}</td>
+                    <td
+                        class="d-flex align-items-left justify-content-left">
+                        <img
+                            [src]="submission.userPhotoUrl"
+                            alt="Foto do usuário"
+                            class="rounded-circle me-2"
+                            width="40"
+                            height="40">
+                        <span>{{ submission.user.split(' ')[0] + ' ' +
+                            submission.user.split(' ')[1] }}</span>
+                    </td>
+                    <td class="text-center">{{ submission.timestamp }}</td>
+                    <td class="text-center">
+                        <span *ngIf="submission.status === 'Sucesso'"
+                            class="text-success"><strong>{{
+                                submission.status }}</strong></span>
+                        <a *ngIf="submission.status === 'Erros'"
+                            [routerLink]="['/erros']"
+                            class="text-danger text-decoration-none"><strong>{{
+                                submission.status }}</strong></a>
+                        <a *ngIf="submission.status === 'Alertas'"
+                            [routerLink]="['/alertas']"
+                            class="text-warning text-decoration-none"><strong>{{
+                                submission.status }}</strong></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Formulário de submissão -->
+<div class="my-3" *ngIf="showForm">
+
+    <div class="card">
+        <div
+            class="card-header d-flex justify-content-between align-items-center">
+            <h3>Nova Submissão</h3>
+
+            <!-- Botões de Ação -->
+            <div>
+                <!-- Botão para nova submissão -->
+                <button class="btn btn-primary" (click)="toggleForm()"
+                    title="Nova Submissão">
+                    <i class="bi bi-file-earmark-plus"></i>
+                    <i class="bi"
+                        [ngClass]="showForm ? 'bi-caret-up-fill' : 'bi-caret-down-fill'"></i>
+                    <!-- Setinha para abrir/fechar -->
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <form class="mt-3" (ngSubmit)="submitFiles()">
+
+        <div class="row mb-4">
+            <div class="col-12 col-md-6 col-lg-4">
+                <label for="description">Descrição</label>
+                <input type="text" [(ngModel)]="description"
+                    name="description" id="description"
+                    class="form-control" maxlength="50" required />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file1">Cronograma de Reserva</label>
+            <div class="custom-file-wrapper">
+                <input type="file" #fileInput1
+                    (change)="onFileSelected($event, 1)" id="file1"
+                    class="form-control-file d-none" accept=".xlsx">
+                <button class="btn btn-primary" type="button"
+                    (click)="fileInput1.click()">
+                    <i class="bi bi-upload"></i>
+                </button>
+                <button *ngIf="files[0]" class="btn btn-danger ms-2"
+                    type="button"
+                    (click)="clearFile(1, fileInput1)">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <span *ngIf="files[0]">{{ files[0]?.name }}</span>
+            </div>
+            <div *ngIf="uploadProgress[0] >= 0">
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-info text-dark"
+                        role="progressbar"
+                        [style.width]="uploadProgress[0] + '%'"
+                        [attr.aria-valuenow]="uploadProgress[0]"
+                        aria-valuemin="0" aria-valuemax="100">{{
+                        uploadProgress[0] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file2">Cronograma de Empenho</label>
+            <div class="custom-file-wrapper">
+                <input type="file" #fileInput2
+                    (change)="onFileSelected($event, 2)" id="file2"
+                    class="form-control-file d-none" accept=".xlsx">
+                <button class="btn btn-primary" type="button"
+                    (click)="fileInput2.click()">
+                    <i class="bi bi-upload"></i>
+                </button>
+                <button *ngIf="files[1]" class="btn btn-danger ms-2"
+                    type="button"
+                    (click)="clearFile(2, fileInput2)">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <span *ngIf="files[1]">{{ files[1]?.name }}</span>
+            </div>
+            <div *ngIf="uploadProgress[1] >= 0">
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-info text-dark"
+                        role="progressbar"
+                        [style.width]="uploadProgress[1] + '%'"
+                        [attr.aria-valuenow]="uploadProgress[1]"
+                        aria-valuemin="0" aria-valuemax="100">{{
+                        uploadProgress[1] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file3">Fluxo Caixa Empenho</label>
+            <div class="custom-file-wrapper">
+                <input type="file" #fileInput3
+                    (change)="onFileSelected($event, 3)" id="file3"
+                    class="form-control-file d-none" accept=".xlsx">
+                <button class="btn btn-primary" type="button"
+                    (click)="fileInput3.click()">
+                    <i class="bi bi-upload"></i>
+                </button>
+                <button *ngIf="files[2]" class="btn btn-danger ms-2"
+                    type="button"
+                    (click)="clearFile(3, fileInput3)">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <span *ngIf="files[2]">{{ files[2]?.name }}</span>
+            </div>
+            <div *ngIf="uploadProgress[2] >= 0">
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-info text-dark"
+                        role="progressbar"
+                        [style.width]="uploadProgress[2] + '%'"
+                        [attr.aria-valuenow]="uploadProgress[2]"
+                        aria-valuemin="0" aria-valuemax="100">{{
+                        uploadProgress[2] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="file4">Fluxo Caixa Liquidação</label>
+            <div class="custom-file-wrapper">
+                <input type="file" #fileInput4
+                    (change)="onFileSelected($event, 4)" id="file4"
+                    class="form-control-file d-none" accept=".xlsx">
+                <button class="btn btn-primary" type="button"
+                    (click)="fileInput4.click()">
+                    <i class="bi bi-upload"></i>
+                </button>
+                <button *ngIf="files[3]" class="btn btn-danger ms-2"
+                    type="button"
+                    (click)="clearFile(4, fileInput4)">
+                    <i class="bi bi-trash"></i>
+                </button>
+                <span *ngIf="files[3]">{{ files[3]?.name }}</span>
+            </div>
+            <div *ngIf="uploadProgress[3] >= 0">
+                <div class="progress mt-2">
+                    <div class="progress-bar bg-info text-dark"
+                        role="progressbar"
+                        [style.width]="uploadProgress[3] + '%'"
+                        [attr.aria-valuenow]="uploadProgress[3]"
+                        aria-valuemin="0" aria-valuemax="100">{{
+                        uploadProgress[3] }}%
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary"
+            [disabled]="!allFilesSelected()">Submeter</button>
+    </form>
+
+    <!-- Componente de progresso por etapas -->
+    <div *ngIf="isProcessing" class="mt-4">
+        <ul class="list-inline text-center">
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 1}">1. Upload para o
+                servidor</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 2}">2. Validação no
+                back-end</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 3}">3. Geração de logs</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 4}">4. Mesclagem dos
+                arquivos</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 5}">5. Persistência no
+                banco</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 6}">6. Ingestão no banco
+                dimensional</li>
+            <li class="list-inline-item"
+                [ngClass]="{'active': currentStep >= 7}">7. Finalização</li>
+        </ul>
+    </div>
+
+    <!-- Memo para exibir logs -->
+    <div *ngIf="isProcessing" class="mt-4">
+        <h5>Log do Processo</h5>
+        <textarea class="form-control" readonly
+            rows="8">{{ processLog }}</textarea>
+    </div>
+
+    <!-- Mensagem de conclusão -->
+    <div *ngIf="submissionSuccess"
+        [ngClass]="{'alert-success': finalStatus === 'Sucesso', 'alert-danger': finalStatus === 'Erros', 'alert-warning': finalStatus === 'Alertas'}"
+        class="alert mt-3">
+        Submissão finalizada com {{ finalStatus }}!
+    </div>
+
+</div>

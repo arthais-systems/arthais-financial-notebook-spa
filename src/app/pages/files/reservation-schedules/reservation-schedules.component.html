@@ -1,0 +1,202 @@
+<p>reservation-schedule works!</p>
+<div class="table-responsive" style="overflow-x:auto; overflow-y:auto; max-height: 500px;">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Código UO Documento</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Código Projeto Atividade</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Número Processo</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Código Fonte Detalhada</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Código Nome Elemento</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Código Evento</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Numero Nota Reserva</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Valor Reservado</th>
+        <th></th> <!-- Coluna para os botões -->
+        <th>Mês</th>
+        <th></th> <!-- Coluna para os botões -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data; let rowIndex = index">
+        <!-- Código UO Documento -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['codigoUODocumento']">{{ row['codigoUODocumento'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['codigoUODocumento']" [(ngModel)]="row['codigoUODocumento']" class="form-control">
+        </td>
+        <td>
+          <!-- Botões de ação -->
+          <button *ngIf="!editingCell[rowIndex]['codigoUODocumento']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'codigoUODocumento')">
+            <i class="bi bi-pencil"></i> <!-- Ícone de lápis -->
+          </button>
+          <div *ngIf="editingCell[rowIndex]['codigoUODocumento']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'codigoUODocumento')">
+              <i class="bi bi-check-circle"></i> <!-- Ícone de OK -->
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'codigoUODocumento')">
+              <i class="bi bi-x-circle"></i> <!-- Ícone de Cancelar -->
+            </button>
+          </div>
+        </td>
+
+        <!-- Código Projeto Atividade -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['codigoProjetoAtividade']">{{ row['codigoProjetoAtividade'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['codigoProjetoAtividade']" [(ngModel)]="row['codigoProjetoAtividade']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['codigoProjetoAtividade']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'codigoProjetoAtividade')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['codigoProjetoAtividade']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'codigoProjetoAtividade')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'codigoProjetoAtividade')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Número Processo -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['numeroProcesso']">{{ row['numeroProcesso'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['numeroProcesso']" [(ngModel)]="row['numeroProcesso']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['numeroProcesso']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'numeroProcesso')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['numeroProcesso']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'numeroProcesso')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'numeroProcesso')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Código Fonte Detalhada -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['codigoFonteDetalhada']">{{ row['codigoFonteDetalhada'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['codigoFonteDetalhada']" [(ngModel)]="row['codigoFonteDetalhada']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['codigoFonteDetalhada']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'codigoFonteDetalhada')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['codigoFonteDetalhada']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'codigoFonteDetalhada')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'codigoFonteDetalhada')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Código Nome Elemento -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['codigoNomeElemento']">{{ row['codigoNomeElemento'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['codigoNomeElemento']" [(ngModel)]="row['codigoNomeElemento']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['codigoNomeElemento']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'codigoNomeElemento')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['codigoNomeElemento']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'codigoNomeElemento')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'codigoNomeElemento')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Código Evento -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['codigoEvento']">{{ row['codigoEvento'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['codigoEvento']" [(ngModel)]="row['codigoEvento']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['codigoEvento']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'codigoEvento')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['codigoEvento']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'codigoEvento')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'codigoEvento')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Número Nota Reserva -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['numeroNotaReserva']">{{ row['numeroNotaReserva'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['numeroNotaReserva']" [(ngModel)]="row['numeroNotaReserva']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['numeroNotaReserva']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'numeroNotaReserva')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['numeroNotaReserva']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'numeroNotaReserva')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'numeroNotaReserva')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Valor Reservado -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['valorReservado']">{{ row['valorReservado'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['valorReservado']" [(ngModel)]="row['valorReservado']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['valorReservado']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'valorReservado')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['valorReservado']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'valorReservado')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'valorReservado')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+
+        <!-- Mês -->
+        <td>
+          <span *ngIf="!editingCell[rowIndex]['mes']">{{ row['mes'] }}</span>
+          <input *ngIf="editingCell[rowIndex]['mes']" [(ngModel)]="row['mes']" class="form-control">
+        </td>
+        <td>
+          <button *ngIf="!editingCell[rowIndex]['mes']" class="btn btn-sm btn-primary" (click)="editCell(rowIndex, 'mes')">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <div *ngIf="editingCell[rowIndex]['mes']">
+            <button class="btn btn-sm btn-success" (click)="saveCell(rowIndex, 'mes')">
+              <i class="bi bi-check-circle"></i>
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="cancelCell(rowIndex, 'mes')">
+              <i class="bi bi-x-circle"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
